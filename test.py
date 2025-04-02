@@ -1,11 +1,15 @@
-# This is a test of pygame. Change later.
+# This is a test of pygame change later to reflect actual game
 import pygame
 
 # Initialize Pygame
 pygame.init()
 
+# Create varibles for screen size
+max_width = 400
+max_height = 300
+
 # Set up display
-screen = pygame.display.set_mode((400, 300))
+screen = pygame.display.set_mode((max_width, max_height))
 pygame.display.set_caption("Pygame Test")
 
 # Define color

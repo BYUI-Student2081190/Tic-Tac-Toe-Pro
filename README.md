@@ -19,7 +19,7 @@
 # Useful Websites
 
 {Make a list of websites that you found helpful in this project}
-* [Web Site Name](http://url.link.goes.here)
+* [Visual Studio Code Docs - Getting Started with Python](https://code.visualstudio.com/docs/python/python-tutorial)
 * [Web Site Name](http://url.link.goes.here)
 
 # Future Work

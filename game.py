@@ -30,14 +30,9 @@ grid_size = 3 # This is the size of the grid on screen
 grid_line_width = 5 # Line thickness
 cell_size = box_size // grid_size # How big each cell is in the grid inside the box
 
-# Keep the window open until closed
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT: # This allows the game to exit when the player quits
-            running = False
-
-    # For now set up the grid here for tic-tac-toe
+# Draw Box and Grid function
+def draw_box_and_grid():
+    # Set up the grid and box for tic-tac-toe
     # Draw the box
     pygame.draw.rect(screen, box_color, (box_x, box_y, box_size, box_size), box_line_width)
     # Draw the vertical grid lines
@@ -48,6 +43,16 @@ while running:
     for i in range(1, grid_size):
         y = box_y + i * cell_size
         pygame.draw.line(screen, grid_color, (box_x, y), (box_x + box_size, y), grid_line_width)
+
+# Keep the window open until closed
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: # This allows the game to exit when the player quits
+            running = False
+
+    # Display the box and grid
+    draw_box_and_grid()
     
     # Update the display to view the new grid
     pygame.display.update()

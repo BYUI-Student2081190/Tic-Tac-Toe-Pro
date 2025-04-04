@@ -22,7 +22,7 @@ box_color = (255, 255, 255) # This is white
 box_size = 400 # Box size
 box_line_width = 5 # Line thickness
 box_x = (max_width - box_size) // 2
-box_y = (max_height - box_size) // 2
+box_y = ((max_height - box_size) // 2) - 50 # Added this 50 to off center the box up
 
 # Define Grid properties
 grid_color = (255, 255, 255) # This is white

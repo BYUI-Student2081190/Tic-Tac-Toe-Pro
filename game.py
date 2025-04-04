@@ -17,18 +17,18 @@ BLACK = (0, 0, 0)
 screen.fill(BLACK)
 pygame.display.update() # This makes sure that the screen updates before moving on
 
+# Define Box properties
+box_color = (255, 255, 255) # This is white
+box_size = 400 # Box size
+box_line_width = 5 # Line thickness
+box_x = (max_width - box_size) // 2
+box_y = (max_height - box_size) // 2
+
 # Define Grid properties
 grid_color = (255, 255, 255) # This is white
-grid_size = 100 # This is the size of the grid on screen
-
-# Grid Positions
+grid_size = 3 # This is the size of the grid on screen
 grid_line_width = 5 # Line thickness
-grid_positions = [
-    ((max_width / 3, 0), (max_width / 3, max_height)),
-    ((2 * max_width / 3, 0), (2 * max_width / 3, max_height)),
-    ((0, max_height / 3), (max_width, max_height / 3)),
-    ((0, 2 * max_height / 3), (max_width, 2 * max_height / 3)),
-]
+cell_size = box_size // grid_size # How big each cell is in the grid inside the box
 
 # Keep the window open until closed
 running = True
@@ -37,10 +37,19 @@ while running:
         if event.type == pygame.QUIT: # This allows the game to exit when the player quits
             running = False
     
+    # Draw box for grid to fit inside of
+
     # For now set up the grid here for tic-tac-toe
-    # Draw the grid lines
-    for grid_start_pos, grid_end_pos in grid_positions:
-        pygame.draw.line(screen, grid_color, grid_start_pos, grid_end_pos, grid_line_width)
+    # Draw the box
+    pygame.draw.rect(screen, box_color, (box_x, box_y, box_size, box_size), box_line_width)
+    # Draw the vertical grid lines
+    for i in range(1, grid_size):
+        x = box_x + i * cell_size
+        pygame.draw.line(screen, grid_color, (x, box_y), (x, box_y + box_size), grid_line_width)
+    # Draw the horizontal grid lines
+    for i in range(1, grid_size):
+        y = box_y + i * cell_size
+        pygame.draw.line(screen, grid_color, (box_x, y), (box_x + box_size, y), grid_line_width)
     
     # Update the display to view the new grid
     pygame.display.update()

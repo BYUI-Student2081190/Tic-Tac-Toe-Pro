@@ -20,7 +20,9 @@
 
 {Make a list of websites that you found helpful in this project}
 * [Visual Studio Code Docs - Getting Started with Python](https://code.visualstudio.com/docs/python/python-tutorial)
+* [YouTube - Robot Maze: How to create a GRID in PYGAME - Pygame Snake Game #2](https://www.youtube.com/watch?v=s_OOJaGmyXI)
 * [YouTube - Coding With Russ: PyGame Beginner Tutorial in Python - Adding Buttons](https://www.youtube.com/watch?v=G8MYGDf_9ho)
+* [YouTube - Coder Space: Coding Tic Tac Toe in Python with Pygame](https://www.youtube.com/watch?v=q_Nzuyvf3tw)
 
 # Future Work
 

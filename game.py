@@ -36,8 +36,6 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: # This allows the game to exit when the player quits
             running = False
-    
-    # Draw box for grid to fit inside of
 
     # For now set up the grid here for tic-tac-toe
     # Draw the box

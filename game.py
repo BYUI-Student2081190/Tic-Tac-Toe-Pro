@@ -10,12 +10,12 @@ max_height = 300
 
 # Set up display
 screen = pygame.display.set_mode((max_width, max_height))
-pygame.display.set_caption("Pygame Test")
+pygame.display.set_caption("Tic-Tac-Toe Pro") # This sets the caption above the window
 
 # Define color
-RED = (255, 0, 0)
-screen.fill(RED)
-pygame.display.update() # This makes sure that the screen updates before moving on.
+BLACK = (0, 0, 0)
+screen.fill(BLACK)
+pygame.display.update() # This makes sure that the screen updates before moving on
 
 # Keep the window open until closed
 running = True

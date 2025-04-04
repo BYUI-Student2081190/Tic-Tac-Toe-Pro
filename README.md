@@ -20,6 +20,13 @@
 
 {Make a list of websites that you found helpful in this project}
 * [Visual Studio Code Docs - Getting Started with Python](https://code.visualstudio.com/docs/python/python-tutorial)
+* [W3Schools - Python Variables](https://www.w3schools.com/python/python_variables.asp)
+* [W3Schools - Python Operators](https://www.w3schools.com/python/python_operators.asp)
+* [W3Schools - Python Conditionals](https://www.w3schools.com/python/python_conditions.asp)
+* [W3Schools - Python For Loops](https://www.w3schools.com/python/python_for_loops.asp)
+* [W3Schools - Python While Loops](https://www.w3schools.com/python/python_while_loops.asp)
+* [W3Schools - Python Functions](https://www.w3schools.com/python/python_functions.asp)
+* [W3Schools - Python Classes/Objects](https://www.w3schools.com/python/python_classes.asp)
 * [YouTube - Robot Maze: How to create a GRID in PYGAME - Pygame Snake Game #2](https://www.youtube.com/watch?v=s_OOJaGmyXI)
 * [YouTube - Coding With Russ: PyGame Beginner Tutorial in Python - Adding Buttons](https://www.youtube.com/watch?v=G8MYGDf_9ho)
 * [YouTube - Coder Space: Coding Tic Tac Toe in Python with Pygame](https://www.youtube.com/watch?v=q_Nzuyvf3tw)

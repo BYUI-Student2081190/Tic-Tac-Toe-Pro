@@ -40,6 +40,7 @@ x_rect = x_obj.get_rect(center = (max_width // 2, (max_height // 2) + 230)) # Th
 
 dragging = False # Default to false so it can be dragging only when a condition is met
 offset_x, offset_y = 0, 0 # Movement on screen
+locked_in = False # This is used to make sure the X object is not locked into a grid position
 
 # Draw Box and Grid function
 def draw_box_and_grid():
@@ -66,14 +67,21 @@ while running:
             running = False
     
         # Drag and Drop handling for game
-        if event.type == pygame.MOUSEBUTTONDOWN and x_rect.collidepoint(event.pos):
+        if event.type == pygame.MOUSEBUTTONDOWN and x_rect.collidepoint(event.pos) and locked_in != True:
             dragging = True # If the mouse is clicked on the object, then it can move
             offset_x, offset_y = event.pos[0] - x_rect.x, event.pos[1] - x_rect.y # Match the position of the mouse with the object
 
-        if event.type == pygame.MOUSEBUTTONUP:
+        if event.type == pygame.MOUSEBUTTONUP and locked_in != True:
             dragging = False # The mouse is no longer being clicked so stop dragging the object
+            # Make the x snap to a square in the grid
+            if box_x <= event.pos[0] <= box_x + box_size and box_y <= event.pos[1] <= box_y + box_size:
+                grid_x = (event.pos[0] - box_x) // cell_size # Get the posistion for the grid box
+                grid_y = (event.pos[1] - box_y) // cell_size # Get the posistion for the grid box
+                x_rect.center = (box_x + grid_x * cell_size + cell_size // 2, box_y + grid_y * cell_size + cell_size // 2 + 10) # Snap the object into the grid box in the center of the box
+                # Set locked in to true so it can't move anymore after it has been placed.
+                locked_in = True
 
-        if event.type == pygame.MOUSEMOTION and dragging:
+        if event.type == pygame.MOUSEMOTION and dragging and locked_in != True:
             x_rect.x = event.pos[0] - offset_x # Set the object's location
             x_rect.y = event.pos[1] - offset_y # Set the object's location
 

@@ -36,9 +36,9 @@ cell_size = box_size // grid_size # How big each cell is in the grid inside the 
 
 # Create the X object on screen
 x_obj = font.render("X", True, obj_color) # Render the x object
-x_rect = x_obj.get_rect(center = (max_width // 2, (max_height // 2) + 230)) # Place it below the grid
+x_rect = x_obj.get_rect(center = (max_width // 2, (max_height // 2) + 230)) # This gives the object a hit box, it can only be moved is the mouse is touching said hitbox
 
-dragging = False
+dragging = False # Default to false so it can be dragging only when a condition is met
 offset_x, offset_y = 0, 0 # Movement on screen
 
 # Draw Box and Grid function
@@ -58,7 +58,7 @@ def draw_box_and_grid():
 # Keep the window open until closed
 running = True
 while running:
-    # Clear the screen while running so you don't create graphic bugs.
+    # Clear the screen while running so you don't create graphic bugs
     screen.fill(BLACK)
 
     for event in pygame.event.get():

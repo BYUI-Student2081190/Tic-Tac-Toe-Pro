@@ -30,6 +30,7 @@
 * [YouTube - Robot Maze: How to create a GRID in PYGAME - Pygame Snake Game #2](https://www.youtube.com/watch?v=s_OOJaGmyXI)
 * [YouTube - Coding With Russ: PyGame Beginner Tutorial in Python - Adding Buttons](https://www.youtube.com/watch?v=G8MYGDf_9ho)
 * [YouTube - Coder Space: Coding Tic Tac Toe in Python with Pygame](https://www.youtube.com/watch?v=q_Nzuyvf3tw)
+* [YouTube - Coding With Russ: How to Drag and Drop Items In Pygame](https://www.youtube.com/watch?v=Ro82dac_J1Y)
 
 # Future Work
 

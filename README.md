@@ -18,7 +18,6 @@
 
 # Useful Websites
 
-{Make a list of websites that you found helpful in this project}
 * [Visual Studio Code Docs - Getting Started with Python](https://code.visualstudio.com/docs/python/python-tutorial)
 * [W3Schools - Python Variables](https://www.w3schools.com/python/python_variables.asp)
 * [W3Schools - Python Operators](https://www.w3schools.com/python/python_operators.asp)

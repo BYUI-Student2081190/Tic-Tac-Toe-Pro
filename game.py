@@ -145,6 +145,23 @@ while running:
                             o_obj.rect.center = (obj_start_x, obj_start_y)
                             # Make sure locked_in does not trigger so you can place it again
                             o_obj.locked_in = False
+    
+        # Handle key presses the player can do
+        if event.type == pygame.KEYDOWN:
+            # Space resets the game
+            if event.key == pygame.K_SPACE:
+                # Do this by clearing out the object lists
+                x_objects.clear()
+                o_objects.clear()
+                # Now clear the occupied cells set
+                occupied_cells.clear()
+                # Then reset the current_indexes
+                current_x_index = 0
+                current_o_index = 0
+                # Now create a new x for the x_object
+                x_objects.append(XObject(obj_start_x, obj_start_y, font, obj_color))
+                # Now set the game state to X's turn
+                current_state.change_state(GameState.X_TURN)
 
     # Display the x's on screen
     for x_obj in x_objects:

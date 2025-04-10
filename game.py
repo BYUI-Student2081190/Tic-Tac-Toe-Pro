@@ -59,6 +59,9 @@ current_x_index = 0 # This will be the starting index or turn of the game. Each 
 o_objects = [] # Start with this blank for right now, this will have stuff added as the game goes on
 current_o_index = 0 # This will be the starting index or turn of O in the game. Each time an O is placed succesfully it will go up
 
+# Variable to hold the winning line data
+winning_line_data = [] # It is an empty list
+
 # Draw Box and Grid function
 def draw_box_and_grid():
     # Set up the grid and box for tic-tac-toe
@@ -73,6 +76,37 @@ def draw_box_and_grid():
         y = box_y + i * cell_size
         pygame.draw.line(screen, grid_color, (box_x, y), (box_x + box_size, y), grid_line_width)
 
+# Draw the winning line when the player wins
+def draw_winning_line(winner, line_type, index):
+    # Set the line_color
+    line_color = (255, 0, 0) # This is red, default to this for X
+
+    # Check to see if the winner is O to make the line blue
+    if winner == "O":
+        line_color = (0, 0, 255) # This is blue
+
+    # Set the line thickness
+    line_thickness = 10
+
+    # If the line is a row win
+    if line_type == "row":
+        # Figure inside the box where the line must go
+        y = box_y + index * cell_size + cell_size // 2
+        # Draw the line on that y spot
+        pygame.draw.line(screen, line_color, (box_x, y), (box_x + box_size, y), line_thickness)
+    # If the line is a col win
+    elif line_type == "col":
+        # Figure inside the box where the line will go
+        x = box_x + index * cell_size + cell_size // 2
+        # Draw the line on that x spot
+        pygame.draw.line(screen, line_color, (x, box_y), (x, box_y + box_size), line_thickness)
+    # If the line is a diagonal win
+    elif line_type == "diag":
+        if index == 0: # This means that the line needs to go left-to-right
+            pygame.draw.line(screen, line_color, (box_x, box_y), (box_x + box_size, box_y + box_size), line_thickness)
+        else: # This means that the line needs to go right-to-left
+            pygame.draw.line(screen, line_color, (box_x + box_size, box_y), (box_x, box_y + box_size), line_thickness)
+
 # This function is run when a player makes a move
 def update_board(cell, player):
     # Get the row and column of the cell
@@ -83,31 +117,50 @@ def update_board(cell, player):
 
 # This function checks for a winner of the game
 def check_winner():
+    # Create a variable to hold the row index for the draw line function
+    row_index = 0
     # Check the rows of the board
     for row in board:
         if row[0] == row[1] == row[2] and row[0] is not None:
             # There is a winner so set the game state to a win
             current_state.change_state(GameState.GAME_WIN)
+            # Draw the winning line
+            winning_line_data.append(row[0])
+            winning_line_data.append("row")
+            winning_line_data.append(row_index)
+        # If this row does not have the winner add one to the row_index
+        row_index += 1
     # Check the colums of the board
     for col in range(3):
         if board[0][col] == board[1][col] == board[2][col] and board[0][col] is not None:
             # There is a winner here as well so set the game state to a win
             current_state.change_state(GameState.GAME_WIN)
+            # Draw the winning line
+            winning_line_data.append(board[0][col])
+            winning_line_data.append("col")
+            winning_line_data.append(col)
     # Check the diagonals
     if board[0][0] == board[1][1] == board[2][2] and board[0][0] is not None:
         # There is a winner here, set the game state to a win
         current_state.change_state(GameState.GAME_WIN)
+        # Draw the winning line
+        winning_line_data.append(board[0][0])
+        winning_line_data.append("diag")
+        winning_line_data.append(0) # This does diagonal left-to-right
     if board[0][2] == board[1][1] == board[2][0] and board[0][2] is not None:
         # There is another winner here, set the game state to a win
         current_state.change_state(GameState.GAME_WIN)
+        # Draw the winning line
+        winning_line_data.append(board[0][2])
+        winning_line_data.append("diag")
+        winning_line_data.append(1) # This does diagonal right-to-left
     # Note: If there is not a winner yet, do nothing because we have the game state
     # taking care of if a winner appears
 
 # Keep the window open until closed
 running = True
 while running:
-    # Clear the screen while running so you don't create graphic bugs
-    screen.fill(BLACK)
+    screen.fill(BLACK) # Clear the screen while running so you don't create graphic bugs
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT: # This allows the game to exit when the player quits
@@ -207,6 +260,8 @@ while running:
                 board = [[None, None, None],
                          [None, None, None],
                          [None, None, None]]
+                # Also clear the winning line
+                winning_line_data.clear()
                 # Then reset the current_indexes
                 current_x_index = 0
                 current_o_index = 0
@@ -225,7 +280,17 @@ while running:
 
     # Display the box and grid
     draw_box_and_grid()
-    
+
+    # Draw the winner line if the game has been won
+    if current_state.state == GameState.GAME_WIN:
+        # Split up the data into variables
+        winner = winning_line_data[0]
+        line_type = winning_line_data[1]
+        index = winning_line_data[2]
+
+        # Now send them to draw the line
+        draw_winning_line(winner, line_type, index)
+
     # Update the display to view the new grid
     pygame.display.update()
 

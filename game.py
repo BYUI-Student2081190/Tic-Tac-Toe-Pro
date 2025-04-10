@@ -1,6 +1,9 @@
 # This is a test of pygame change later to reflect actual game
 import pygame
 from x_object import XObject # Import the XObject from the file for use
+from o_object import OObject # Import the OObject from the file for use
+from state_machine import StateMachine # Import the StateMachine for use in the program
+from game_state import GameState # Import the Enum for use in the program
 
 # Initialize Pygame
 pygame.init()
@@ -12,6 +15,9 @@ max_height = 600
 # Set up display
 screen = pygame.display.set_mode((max_width, max_height))
 pygame.display.set_caption("Tic-Tac-Toe Pro") # This sets the caption above the window
+
+# Create StateMachine Object for game states
+current_state = StateMachine()
 
 # Font set up - This is used to create an X character and O character on screen.
 font = pygame.font.Font(None, 150) # This is saying we will use the default font because we do not have a font file. Change the size as needed.
@@ -41,8 +47,12 @@ cell_size = box_size // grid_size # How big each cell is in the grid inside the 
 occupied_cells = set() # Stores vales of (x, y) of each object in a cell
 
 # Create the X Objects
-x_objects = [XObject(obj_start_x, obj_start_y, font, obj_color)] # Start with only two for now
+x_objects = [XObject(obj_start_x, obj_start_y, font, obj_color)] # Start the game with only one
 current_x_index = 0 # This will be the starting index or turn of the game. Each time an X is placed succesfully it will go up
+
+# Create the O Objects
+o_objects = [] # Start with this blank for right now, this will have stuff added as the game goes on
+current_o_index = 0 # This will be the starting index or turn of O in the game. Each time an O is placed succesfully it will go up
 
 # Draw Box and Grid function
 def draw_box_and_grid():
@@ -68,42 +78,41 @@ while running:
         if event.type == pygame.QUIT: # This allows the game to exit when the player quits
             running = False
         
-        # Check to see if there are moves still
-        if current_x_index < len(x_objects):
-            # Get our x object by index
-            x_obj = x_objects[current_x_index]
+        # Check to see if the state of the game is X's turn
+        if current_state.state == GameState.X_TURN:
+            # Check to see if there are moves still
+            if current_x_index < len(x_objects):
+                # Get our x object by index
+                x_obj = x_objects[current_x_index]
 
-            # Handle the events of the X Object
-            x_obj.handle_event(event, box_x, box_y, box_size, cell_size)
+                # Handle the events of the X Object
+                x_obj.handle_event(event, box_x, box_y, box_size, cell_size)
 
-            # Check to see if that space is occupied before placing an X or O
-            if event.type == pygame.MOUSEBUTTONUP and x_obj.dragging == False:
-                grid_x = (x_obj.rect.centerx - box_x) // cell_size
-                grid_y = (x_obj.rect.centery - box_y) // cell_size
+                # Check to see if that space is occupied before placing an X or O
+                if event.type == pygame.MOUSEBUTTONUP and x_obj.dragging == False:
+                    grid_x = (x_obj.rect.centerx - box_x) // cell_size
+                    grid_y = (x_obj.rect.centery - box_y) // cell_size
 
-                # Make sure this is inside the bounds
-                if 0 <= grid_x < grid_size and 0 <= grid_y < grid_size:
-                    if (grid_x, grid_y) not in occupied_cells: # Only snap if it is ok to go in here
-                        x_obj.rect.center = (box_x + grid_x * cell_size + cell_size // 2,
-                                            box_y + grid_y * cell_size + cell_size // 2 + 10)
-                        occupied_cells.add((grid_x, grid_y)) # These points to the set
-                        # Also add 1 to the current index because this one was solved
-                        current_x_index = current_x_index + 1
-                        # Add a new X to the list
-                        if current_x_index < 9: # Create a new object if the X's can still make more
-                            x_objects.append(XObject(obj_start_x, obj_start_y, font, obj_color))
+                    # Make sure this is inside the bounds
+                    if 0 <= grid_x < grid_size and 0 <= grid_y < grid_size:
+                        if (grid_x, grid_y) not in occupied_cells: # Only snap if it is ok to go in here
+                            x_obj.rect.center = (box_x + grid_x * cell_size + cell_size // 2,
+                                                box_y + grid_y * cell_size + cell_size // 2 + 10)
+                            occupied_cells.add((grid_x, grid_y)) # These points to the set
+                            # Also add 1 to the current index because this one was solved
+                            current_x_index = current_x_index + 1
+                            # Add a new X to the list
+                            if current_x_index < 9: # Create a new object if the X's can still make more
+                                x_objects.append(XObject(obj_start_x, obj_start_y, font, obj_color))
 
-                    else: # This does not snap and goes back to the starting position
-                        x_obj.rect.center = (obj_start_x, obj_start_y)
-                        # Make sure locked_in does not trigger so you can place it again
-                        x_obj.locked_in = False
+                        else: # This does not snap and goes back to the starting position
+                            x_obj.rect.center = (obj_start_x, obj_start_y)
+                            # Make sure locked_in does not trigger so you can place it again
+                            x_obj.locked_in = False
 
     # Display the x's on screen
     for x_obj in x_objects:
-        if current_x_index <= len(x_objects): # If we are still in the game
-            x_obj.draw(screen)
-        if x_obj.locked_in == True: # Check to see if it is on screen already
-            x_obj.draw(screen) # Pass in the screen object
+        x_obj.draw(screen)
 
     # Display the box and grid
     draw_box_and_grid()

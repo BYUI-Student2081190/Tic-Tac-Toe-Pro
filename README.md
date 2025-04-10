@@ -33,6 +33,7 @@
 * [YouTube - Coding With Russ: PyGame Beginner Tutorial in Python - Adding Buttons](https://www.youtube.com/watch?v=G8MYGDf_9ho)
 * [YouTube - Coder Space: Coding Tic Tac Toe in Python with Pygame](https://www.youtube.com/watch?v=q_Nzuyvf3tw)
 * [YouTube - Coding With Russ: How to Drag and Drop Items In Pygame](https://www.youtube.com/watch?v=Ro82dac_J1Y)
+* [YouTube - It's That Ian Guy: PyGame State Machine - Python Game Dev Tutorial](https://www.youtube.com/watch?v=PZTqfag3T7M)
 
 # Future Work
 

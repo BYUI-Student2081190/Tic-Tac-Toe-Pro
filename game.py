@@ -2,8 +2,8 @@
 import pygame
 from x_object import XObject # Import the XObject from the file for use
 from o_object import OObject # Import the OObject from the file for use
-from state_machine import StateMachine # Import the StateMachine for use in the program
-from game_state import GameState # Import the Enum for use in the program
+from state_machine import StateMachine # Import the StateMachine for use in the program, used to easily handle state changes
+from game_state import GameState # Import the Enum for use in the program, used to update the currentt_state
 
 # Initialize Pygame
 pygame.init()
@@ -102,17 +102,57 @@ while running:
                             # Also add 1 to the current index because this one was solved
                             current_x_index = current_x_index + 1
                             # Add a new X to the list
-                            if current_x_index < 9: # Create a new object if the X's can still make more
-                                x_objects.append(XObject(obj_start_x, obj_start_y, font, obj_color))
+                            if current_x_index < 5: # Create a new O object if the X's can still make more
+                                o_objects.append(OObject(obj_start_x, obj_start_y, font, obj_color))
+                                # Set the current_state to O's turn
+                                current_state.change_state(GameState.O_TURN)
 
                         else: # This does not snap and goes back to the starting position
                             x_obj.rect.center = (obj_start_x, obj_start_y)
                             # Make sure locked_in does not trigger so you can place it again
                             x_obj.locked_in = False
 
+        # Check to see if the state of the game is O's turn
+        if current_state.state == GameState.O_TURN:
+            # Check to see if there are moves still
+            if current_o_index < len(o_objects):
+                # Get our x object by index
+                o_obj = o_objects[current_o_index]
+
+                # Handle the events of the X Object
+                o_obj.handle_event(event, box_x, box_y, box_size, cell_size)
+
+                # Check to see if that space is occupied before placing an X or O
+                if event.type == pygame.MOUSEBUTTONUP and o_obj.dragging == False:
+                    grid_x = (o_obj.rect.centerx - box_x) // cell_size
+                    grid_y = (o_obj.rect.centery - box_y) // cell_size
+
+                    # Make sure this is inside the bounds
+                    if 0 <= grid_x < grid_size and 0 <= grid_y < grid_size:
+                        if (grid_x, grid_y) not in occupied_cells: # Only snap if it is ok to go in here
+                            o_obj.rect.center = (box_x + grid_x * cell_size + cell_size // 2,
+                                                box_y + grid_y * cell_size + cell_size // 2 + 10)
+                            occupied_cells.add((grid_x, grid_y)) # These points to the set
+                            # Also add 1 to the current index because this one was solved
+                            current_o_index = current_o_index + 1
+                            # Add a new X to the list
+                            if current_o_index <= 4: # Create a new X object if the O's can still make more
+                                x_objects.append(XObject(obj_start_x, obj_start_y, font, obj_color))
+                                # Set the current_state to X's turn
+                                current_state.change_state(GameState.X_TURN)
+
+                        else: # This does not snap and goes back to the starting position
+                            o_obj.rect.center = (obj_start_x, obj_start_y)
+                            # Make sure locked_in does not trigger so you can place it again
+                            o_obj.locked_in = False
+
     # Display the x's on screen
     for x_obj in x_objects:
         x_obj.draw(screen)
+
+    # Display the o's on screen
+    for o_obj in o_objects:
+        o_obj.draw(screen)
 
     # Display the box and grid
     draw_box_and_grid()

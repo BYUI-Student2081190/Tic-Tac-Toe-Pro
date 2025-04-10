@@ -30,6 +30,11 @@ BLACK = (0, 0, 0)
 screen.fill(BLACK)
 pygame.display.update() # This makes sure that the screen updates before moving on
 
+# Create a board 3x3 matrix to store and track player moves
+board = [[None, None, None],
+         [None, None, None],
+         [None, None, None]]
+
 # Define Box properties
 box_color = (255, 255, 255) # This is white
 box_size = 400 # Box size
@@ -68,6 +73,36 @@ def draw_box_and_grid():
         y = box_y + i * cell_size
         pygame.draw.line(screen, grid_color, (box_x, y), (box_x + box_size, y), grid_line_width)
 
+# This function is run when a player makes a move
+def update_board(cell, player):
+    # Get the row and column of the cell
+    (col, row) = cell
+    # Check to see if the spot we are adding to is none
+    if board[row][col] is None:
+        board[row][col] = player # Add the X or the O to the board
+
+# This function checks for a winner of the game
+def check_winner():
+    # Check the rows of the board
+    for row in board:
+        if row[0] == row[1] == row[2] and row[0] is not None:
+            # There is a winner so set the game state to a win
+            current_state.change_state(GameState.GAME_WIN)
+    # Check the colums of the board
+    for col in range(3):
+        if board[0][col] == board[1][col] == board[2][col] and board[0][col] is not None:
+            # There is a winner here as well so set the game state to a win
+            current_state.change_state(GameState.GAME_WIN)
+    # Check the diagonals
+    if board[0][0] == board[1][1] == board[2][2] and board[0][0] is not None:
+        # There is a winner here, set the game state to a win
+        current_state.change_state(GameState.GAME_WIN)
+    if board[0][2] == board[1][1] == board[2][0] and board[0][2] is not None:
+        # There is another winner here, set the game state to a win
+        current_state.change_state(GameState.GAME_WIN)
+    # Note: If there is not a winner yet, do nothing because we have the game state
+    # taking care of if a winner appears
+
 # Keep the window open until closed
 running = True
 while running:
@@ -99,13 +134,21 @@ while running:
                             x_obj.rect.center = (box_x + grid_x * cell_size + cell_size // 2,
                                                 box_y + grid_y * cell_size + cell_size // 2 + 10)
                             occupied_cells.add((grid_x, grid_y)) # These points to the set
+                            # Add the cell to the board and who occupies it
+                            update_board((grid_x, grid_y), "X")
                             # Also add 1 to the current index because this one was solved
                             current_x_index = current_x_index + 1
+                            # Check a winner after every playable turn
+                            check_winner()
                             # Add a new X to the list
-                            if current_x_index < 5: # Create a new O object if the X's can still make more
+                            if current_x_index < 5 and current_state.state != GameState.GAME_WIN: # Create a new O object if the X's can still make more
                                 o_objects.append(OObject(obj_start_x, obj_start_y, font, obj_color))
                                 # Set the current_state to O's turn
                                 current_state.change_state(GameState.O_TURN)
+                            # Create a way to end the game in a draw if the game has not been won, and X's turns equal 5
+                            elif current_x_index == 5 and current_state.state != GameState.GAME_WIN:
+                                # Set the game to a draw
+                                current_state.change_state(GameState.GAME_OVER)
 
                         else: # This does not snap and goes back to the starting position
                             x_obj.rect.center = (obj_start_x, obj_start_y)
@@ -133,10 +176,14 @@ while running:
                             o_obj.rect.center = (box_x + grid_x * cell_size + cell_size // 2,
                                                 box_y + grid_y * cell_size + cell_size // 2 + 10)
                             occupied_cells.add((grid_x, grid_y)) # These points to the set
-                            # Also add 1 to the current index because this one was solved
+                            # Add the cell to the board and who occupies it
+                            update_board((grid_x, grid_y), "O")
+                            # Also add 1 to the current index because this O was placed
                             current_o_index = current_o_index + 1
+                            # Check a winner after every playable turn
+                            check_winner()
                             # Add a new X to the list
-                            if current_o_index <= 4: # Create a new X object if the O's can still make more
+                            if current_o_index <= 4 and current_state.state != GameState.GAME_WIN: # Create a new X object if the O's can still make more
                                 x_objects.append(XObject(obj_start_x, obj_start_y, font, obj_color))
                                 # Set the current_state to X's turn
                                 current_state.change_state(GameState.X_TURN)
@@ -155,6 +202,11 @@ while running:
                 o_objects.clear()
                 # Now clear the occupied cells set
                 occupied_cells.clear()
+                # Now clear the board as well and reset it
+                board.clear()
+                board = [[None, None, None],
+                         [None, None, None],
+                         [None, None, None]]
                 # Then reset the current_indexes
                 current_x_index = 0
                 current_o_index = 0

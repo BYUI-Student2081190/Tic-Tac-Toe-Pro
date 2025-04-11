@@ -30,11 +30,13 @@
 * [W3Schools - Python Lists](https://www.w3schools.com/python/python_lists.asp)
 * [W3Schools - Python Dictionaries](https://www.w3schools.com/python/python_dictionaries.asp)
 * [W3Schools - Python Classes/Objects](https://www.w3schools.com/python/python_classes.asp)
+* [W3Schools - Python JSON](https://www.w3schools.com/python/python_json.asp)
 * [YouTube - Robot Maze: How to create a GRID in PYGAME - Pygame Snake Game #2](https://www.youtube.com/watch?v=s_OOJaGmyXI)
 * [YouTube - Coding With Russ: PyGame Beginner Tutorial in Python - Adding Buttons](https://www.youtube.com/watch?v=G8MYGDf_9ho)
 * [YouTube - Coder Space: Coding Tic Tac Toe in Python with Pygame](https://www.youtube.com/watch?v=q_Nzuyvf3tw)
 * [YouTube - Coding With Russ: How to Drag and Drop Items In Pygame](https://www.youtube.com/watch?v=Ro82dac_J1Y)
 * [YouTube - It's That Ian Guy: PyGame State Machine - Python Game Dev Tutorial](https://www.youtube.com/watch?v=PZTqfag3T7M)
+* [YouTube - Fabio Musanni - Programming Channel - How to save and load data in Python using JSON files](https://www.youtube.com/watch?v=ttQidKChD4c&pp=ygULI3NhdmVweXRob24%3D)
 
 # Future Work
 

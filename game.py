@@ -1,5 +1,6 @@
 # This is a test of pygame change later to reflect actual game
 import pygame
+import json
 from x_object import XObject # Import the XObject from the file for use
 from o_object import OObject # Import the OObject from the file for use
 from state_machine import StateMachine # Import the StateMachine for use in the program, used to easily handle state changes
@@ -157,6 +158,54 @@ def check_winner():
     # Note: If there is not a winner yet, do nothing because we have the game state
     # taking care of if a winner appears
 
+# This function saves the data to the json file
+def save_data():
+    # Create data structure to go into the json file
+    data = {
+        "gameState": current_state.state.value,
+        "xIndex": current_x_index,
+        "oIndex": current_o_index,
+        "xObjects": [obj.to_dict() for obj in x_objects],
+        "oObjects": [obj.to_dict() for obj in o_objects],
+        "occupiedCells": list(occupied_cells),
+        "winningLineData": winning_line_data,
+        "board": board
+    }
+
+    # Write to the json file
+    with open("save_data.json", "w") as file:
+        json.dump(data, file, indent=4) # Indent allows it to be readable
+
+# This function loads in the save data for a continued game
+def load_data():
+    # Set up a try catch block to handle if data is not there
+    try:
+        with open("save_data.json", "r") as file:
+            # Load in the data
+            data = json.load(file)
+            # Make all the variables global
+            global current_state
+            global current_x_index
+            global current_o_index
+            global x_objects
+            global o_objects
+            global occupied_cells
+            global winning_line_data
+            global board
+            # Extract the game properties
+            current_state.change_state(GameState(data["gameState"]))
+            current_x_index = data.get("xIndex")
+            current_o_index = data.get("oIndex")
+            x_objects = [XObject.from_dict(XObject, obj_data, font, obj_color) for obj_data in data.get("xObjects", [])]
+            o_objects = [OObject.from_dict(OObject, obj_data, font, obj_color) for obj_data in data.get("oObjects", [])]
+            occupied_cells = set(map(tuple, data.get("occupiedCells", [])))
+            winning_line_data = data.get("winningLineData")
+            board = data.get("board")
+    
+    except FileNotFoundError:
+        print("No save data found") # This keeps the program from blowing up
+
+
 # Keep the window open until closed
 running = True
 while running:
@@ -269,6 +318,14 @@ while running:
                 x_objects.append(XObject(obj_start_x, obj_start_y, font, obj_color))
                 # Now set the game state to X's turn
                 current_state.change_state(GameState.X_TURN)
+            # 'S' saves the game
+            elif event.key == pygame.K_s:
+                # Call the save function
+                save_data()
+            # 'L' loads the game
+            elif event.key == pygame.K_l:
+                # Call the load function
+                load_data()
 
     # Display the x's on screen
     for x_obj in x_objects:

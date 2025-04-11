@@ -11,6 +11,32 @@ class OObject:
         self.offset_y = 0
         self.locked_in = False
     
+    # Add a function to condense the object
+    def to_dict(self):
+        return {
+            "x": self.rect.centerx,
+            "y": self.rect.centery,
+            "locked_in": self.locked_in
+        }
+    
+    # Add a function to restore the object after being a dict
+    def from_dict(cls, data, font, color):
+        print(f"Raw Data: {data}")
+        
+        # Recreate the object to load
+        obj = cls(
+            x = data.get("x"),
+            y = data.get("y"),
+            font = font,
+            color = color
+        )
+
+        obj.locked_in = data.get("locked_in", False) # Restore state
+
+        # Return the object
+        return obj
+
+    
     def draw(self, screen): # Display self to screen.
         screen.blit(self.image, self.rect.topleft)
     

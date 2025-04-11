@@ -1,20 +1,14 @@
 # Overview
 
-{Important!  Do not say in this section that this is college assignment.  Talk about what you are trying to accomplish as a software engineer to further your learning.}
+This project was to try doing a goal I had, which is to create a game with graphics and not have it run in the terminal as a text only game. I have also really wanted to try making tic-tac-toe as a video game since I was a little kid because I thought if I could do that, I could make any video game. This diffidently accomplished a lot in helping me learn more as a software engineer and also furthered my learning a lot. I never knew how to save things to a Json file in Python and now I know. I also learned all about the game world, and how everything lives on an x, y coordinate on the game world. I also learned so much more about Python than I knew when I first learned the language. 
 
-{Provide a description the game that you wrote. Describe how to play your game.}
-
-{Describe your purpose for writing this software.}
-
-{Provide a link to your YouTube demonstration.  It should be a 4-5 minute demo of the game being played and a walkthrough of the code.}
-
-[Software Demo Video](http://youtube.link.goes.here)
+How to play this game is pretty simple. It is a two-player tic-tac-toe game where each player takes a turn with the mouse to drag and drop their piece onto the grid, or they can simply click a square and the piece will go there. After someone wins the game will put a line through the winner's pieces much like how you do on paper. There are three unique features I added to the game to make it user friendly. The first thing I added was when you pressed the 'space bar' it will reset the game back to the beginning. The second thing being if you press 'S' on your keyboard you will save that current game at the current turn. The final thing is if you press 'L' on your keyboard you will load that saved game back onto the screen. So, if you want to try playing the game over and over again at a specific turn, or if you need to leave you can continue that game you were playing again.
 
 # Development Environment
 
-{Describe the tools that you used to develop the software}
+The tools that I used to program this game was VSCode, YouTube, W3Schools, and a little bit of help from Microsoft Copilot to help me trouble shoot and get answers to some questions I had while coding.
 
-{Describe the programming language that you used and any libraries.}
+The language I used was Python, and I used the library called PyGame to make the game itself. PyGame was a very powerful library for making games and really helped simplify the process of making this game down tremendously. I also used the Json library Python has to save and load the player's game. I used the Enum library that Python has to create a state machine. This state machine would keep track of what state the game was in. I learned about these a long time ago and thought this was the perfect spot to apply one. Everything else used in the project I made from scratch.
 
 # Useful Websites
 
@@ -40,7 +34,6 @@
 
 # Future Work
 
-{Make a list of things that you need to fix, improve, and add in the future.}
-* Item 1
-* Item 2
-* Item 3
+* Adding an AI to play with, this would add some more fun to this game because not all of us have a buddy to play with.
+* Add a way to customize colors of the X's and O's and maybe the grid as well, this way a player's tic-tac-toe will feel more like theirs.
+* Adding a way to have levels or a single player campaign. That way a player can fight more advanced AI's and keep playing as they win each level.

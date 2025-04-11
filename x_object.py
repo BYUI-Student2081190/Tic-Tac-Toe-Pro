@@ -21,7 +21,6 @@ class XObject:
     
     # Add a function to restore the object after being a dict
     def from_dict(cls, data, font, color):
-        print(f"Raw Data: {data}")
         
         # Recreate the object to load
         obj = cls(
